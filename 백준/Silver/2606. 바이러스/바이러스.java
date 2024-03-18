@@ -32,7 +32,7 @@ public class Main {
     static void dfs(int start) {
         Visited[start] = true;
         count++;
-        for (int i =0; i<=node; i++){
+        for (int i =1; i<=node; i++){
             if(!Visited[i] && graph[start][i] == 1){
                 dfs(i);
             }
