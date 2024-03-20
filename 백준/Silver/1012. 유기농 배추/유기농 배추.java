@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -8,6 +10,9 @@ public class Main {
     static boolean[][] visited;
     static int[][] graph;
     static int x, y;
+
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
@@ -19,21 +24,21 @@ public class Main {
             y = Integer.parseInt(st.nextToken());
             int veg = Integer.parseInt(st.nextToken());
 
-            graph = new int[y][x];
-            visited = new boolean[y][x];
+            graph = new int[x][y];
+            visited = new boolean[x][y];
 
             for (int i = 0; i < veg; i++) {
                 st = new StringTokenizer(bf.readLine());
                 int vx = Integer.parseInt(st.nextToken());
                 int vy = Integer.parseInt(st.nextToken());
-                graph[vy][vx] = 1;
+                graph[vx][vy] = 1;
             }
 
             int count = 0;
-            for (int i = 0; i < y; i++) {
-                for (int j = 0; j < x; j++) {
-                    if (graph[i][j] == 1 && !visited[i][j]) {
-                        dfs(i, j);
+            for (int X = 0; X < x; X++) {
+                for (int Y = 0; Y < y; Y++) {
+                    if (graph[X][Y] == 1 && !visited[X][Y]) {
+                        bfs(X, Y);
                         count++;
                     }
                 }
@@ -42,20 +47,47 @@ public class Main {
         }
     }
 
-    private static void dfs(int i, int j) {
-        visited[i][j] = true;
+    private static void dfs(int a, int b) {
+        visited[a][b] = true;
 
         // 상하좌우 이동
-        int[] dx = {-1, 1, 0, 0};
-        int[] dy = {0, 0, -1, 1};
-
         for (int k = 0; k < 4; k++) {
-            int nx = i + dx[k];
-            int ny = j + dy[k];
+            int nx = a + dx[k];
+            int ny = b + dy[k];
 
-            if (nx >= 0 && nx < y && ny >= 0 && ny < x && graph[nx][ny] == 1 && !visited[nx][ny]) {
-                dfs(nx, ny);
-            }
+            if(isValid(nx,ny)) dfs(nx,ny);
+
         }
     }
+
+    private static void bfs(int a, int b){
+        Queue<int[]> myQueue = new LinkedList<int[]>();
+        myQueue.add(new int[] {a,b});
+
+        while(!myQueue.isEmpty()){
+            int qx = myQueue.peek()[0];
+            int qy = myQueue.peek()[1];
+            visited[qx][qy] = true;
+            myQueue.poll();
+            for(int i=0; i<4; i++){
+                int nx = qx + dx[i];
+                int ny = qy + dy[i];
+                if(isValid(nx,ny)){
+                    visited[nx][ny] = true;
+                    myQueue.add(new int[] {nx,ny});
+                }
+            }
+        }
+
+    }
+
+    private static boolean isValid(int a, int b){
+        if (a >= 0 && a < x && b >= 0 && b < y) {
+            if (graph[a][b] == 1 && !visited[a][b]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
