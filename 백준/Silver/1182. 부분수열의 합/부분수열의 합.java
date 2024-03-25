@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    static int []list = new int[20];
+    static int []list;
     static Integer S,N;
     static Integer count =0;
     public static void main(String[] args) throws IOException {
@@ -14,7 +14,7 @@ public class Main {
 
         S = Integer.parseInt(st.nextToken());
         N = Integer.parseInt(st.nextToken());
-
+        list = new int[S];
         st = new StringTokenizer(bf.readLine());
         for(int i=0; i<S; i++){
             int input = Integer.parseInt(st.nextToken());
