@@ -32,26 +32,26 @@ public class Main {
         Queue<Integer> q = new LinkedList<>();
         q.offer(A);
         int sum = 0;
-        Set<Integer> visited = new HashSet<>();
-
+        boolean visited[] = new boolean[N+1];
         while(!q.isEmpty()){
             int size = q.size();
-            for(int i=0; i<size; i++){
-                int now = q.poll();
-                if(now == B){
+            for(int a=0; a<size; a++){
+                int start = q.poll();
+                if(start == B){
                     return sum;
                 }
 
-                for(int j=1; now + j * arr[now] <= N || now-j*arr[now] >= 1 ; j++){
-                    int next = now + j * arr[now];
-                    if(next <= N && !visited.contains(next)){
-                        q.offer(next);
-                        visited.add(next);
+                for(int i=1; start + i*arr[start] <= N || start - i*arr[start] >=1 ; i++ ){
+                    int next = start + i*arr[start];
+                    if(next <= N && !visited[next]){
+                        q.add(next);
+                        visited[next] = true;
                     }
-                    next = now - j *arr[now];
-                    if(next >= 1 && !visited.contains(next)){
-                        q.offer(next);
-                        visited.add(next);
+
+                    next = start - i*arr[start];
+                    if(next >= 1 && !visited[next]){
+                        q.add(next);
+                        visited[next] = true;
                     }
                 }
             }
