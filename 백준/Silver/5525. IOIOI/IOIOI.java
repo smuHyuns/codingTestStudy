@@ -7,20 +7,74 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
         int M = Integer.parseInt(br.readLine());
         String input = br.readLine();
-        int cnt = 0;
 
-        String div = "I";
-        //비교값 생성
-        for(int i=0; i<N; i++){
-            div += "OI";
+        // 패턴 생성
+        StringBuilder patternBuilder = new StringBuilder("I");
+        for (int i = 0; i < N; i++) {
+            patternBuilder.append("OI");
+        }
+        String pattern = patternBuilder.toString();
+
+        // KMP 알고리즘을 사용하여 패턴 찾기
+        int[] lps = computeLPSArray(pattern);
+        int count = KMPSearch(input, pattern, lps);
+
+        System.out.println(count);
+    }
+
+    // LPS 배열을 계산하는 함수
+    public static int[] computeLPSArray(String pattern) {
+        int M = pattern.length();
+        int[] lps = new int[M];
+        int length = 0;
+        int i = 1;
+
+        lps[0] = 0;
+
+        while (i < M) {
+            if (pattern.charAt(i) == pattern.charAt(length)) {
+                length++;
+                lps[i] = length;
+                i++;
+            } else {
+                if (length != 0) {
+                    length = lps[length - 1];
+                } else {
+                    lps[i] = 0;
+                    i++;
+                }
+            }
         }
 
-        // div.length 만큼 짤라서 개수 세기
-        for(int i=0; i<M-div.length()+1; i++){
-            String target = input.substring(i, i+div.length());
-            if(target.equals(div)) cnt++;
+        return lps;
+    }
+
+    // KMP 알고리즘으로 패턴을 찾는 함수
+    public static int KMPSearch(String text, String pattern, int[] lps) {
+        int N = text.length();
+        int M = pattern.length();
+        int i = 0;
+        int j = 0;
+        int count = 0;
+
+        while (i < N) {
+            if (pattern.charAt(j) == text.charAt(i)) {
+                i++;
+                j++;
+            }
+
+            if (j == M) {
+                count++;
+                j = lps[j - 1];
+            } else if (i < N && pattern.charAt(j) != text.charAt(i)) {
+                if (j != 0) {
+                    j = lps[j - 1];
+                } else {
+                    i++;
+                }
+            }
         }
 
-        System.out.println(cnt);
+        return count;
     }
 }
