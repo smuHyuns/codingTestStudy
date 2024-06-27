@@ -1,93 +1,58 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-
-    static boolean[][] visited;
-    static int[][] graph;
-    static int x, y;
-
-    static int[] dx = {-1, 1, 0, 0};
-    static int[] dy = {0, 0, -1, 1};
+    public static int count;
+    public static int X, Y;
+    public static int[][] graph;
+    public static int[] xrr = {-1, 1, 0, 0};
+    public static int[] yrr = {0, 0, 1, -1};
 
     public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        int testcase = Integer.parseInt(bf.readLine());
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
 
-        for (int t = 0; t < testcase; t++) {
-            StringTokenizer st = new StringTokenizer(bf.readLine());
-            x = Integer.parseInt(st.nextToken());
-            y = Integer.parseInt(st.nextToken());
-            int veg = Integer.parseInt(st.nextToken());
+        for (int a = 0; a < N; a++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            X = Integer.parseInt(st.nextToken());
+            Y = Integer.parseInt(st.nextToken());
+            int testcase = Integer.parseInt(st.nextToken());
 
-            graph = new int[x][y];
-            visited = new boolean[x][y];
-
-            for (int i = 0; i < veg; i++) {
-                st = new StringTokenizer(bf.readLine());
-                int vx = Integer.parseInt(st.nextToken());
-                int vy = Integer.parseInt(st.nextToken());
-                graph[vx][vy] = 1;
+            graph = new int[Y][X];
+            count = 0;
+            for (int i = 0; i < testcase; i++) {
+                st = new StringTokenizer(br.readLine());
+                int x = Integer.parseInt(st.nextToken());
+                int y = Integer.parseInt(st.nextToken());
+                graph[y][x] = 1;
             }
 
-            int count = 0;
-            for (int X = 0; X < x; X++) {
-                for (int Y = 0; Y < y; Y++) {
-                    if (graph[X][Y] == 1 && !visited[X][Y]) {
-                        bfs(X, Y);
+            for (int j = 0; j < Y; j++) {
+                for (int i = 0; i < X; i++) {
+                    if (graph[j][i] == 1) {
+                        dfs(i, j);
                         count++;
                     }
                 }
             }
-            System.out.println(count);
+            sb.append(count + " \n");
         }
+        System.out.println(sb);
     }
 
-    private static void dfs(int a, int b) {
-        visited[a][b] = true;
-
-        // 상하좌우 이동
-        for (int k = 0; k < 4; k++) {
-            int nx = a + dx[k];
-            int ny = b + dy[k];
-
-            if(isValid(nx,ny)) dfs(nx,ny);
-
-        }
-    }
-
-    private static void bfs(int a, int b){
-        Queue<int[]> myQueue = new LinkedList<int[]>();
-        myQueue.add(new int[] {a,b});
-
-        while(!myQueue.isEmpty()){
-            int qx = myQueue.peek()[0];
-            int qy = myQueue.peek()[1];
-            visited[qx][qy] = true;
-            myQueue.poll();
-            for(int i=0; i<4; i++){
-                int nx = qx + dx[i];
-                int ny = qy + dy[i];
-                if(isValid(nx,ny)){
-                    visited[nx][ny] = true;
-                    myQueue.add(new int[] {nx,ny});
-                }
+    private static void dfs(int x, int y) {
+        graph[y][x] = 0;
+        for (int i = 0; i < 4; i++) {
+            int dx = x + xrr[i];
+            int dy = y + yrr[i];
+            if (dx >= 0 && dx <= X - 1 && dy >= 0 && dy <= Y - 1 && graph[dy][dx] == 1) {
+                dfs(dx, dy);
             }
         }
-
     }
 
-    private static boolean isValid(int a, int b){
-        if (a >= 0 && a < x && b >= 0 && b < y) {
-            if (graph[a][b] == 1 && !visited[a][b]) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 }
