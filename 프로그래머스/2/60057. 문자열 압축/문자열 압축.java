@@ -16,7 +16,7 @@ class Solution {
             String front = s.substring(0,i);
             int cnt = 1;
             
-            for(int j=i; j<=s.length(); j+=i){ //순회
+            for(int j=i; j<s.length(); j+=i){ //순회
                 String back;
                 if(j+i <= s.length()) back = s.substring(j,i+j);
                 else back = s.substring(j);
@@ -38,9 +38,9 @@ class Solution {
                 
             }
             
-             if(cnt == 1){
+             if(cnt == 1){ //1인경우는 중복되는 부분이 없었다는 뜻, 그러므로 그대로 더해준다
                 sb.append(front);
-             } else{ 
+             } else{ //1이 아닌경우는 앞선 front와 중복되어있었다는 뜻, 그러므로 cnt + front를 더해준다
                 sb.append(cnt);
                 sb.append(front);
              }
