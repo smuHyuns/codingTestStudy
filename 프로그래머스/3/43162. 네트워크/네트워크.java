@@ -1,3 +1,4 @@
+import java.util.*;
 class Solution {
     
     boolean[] visited;
@@ -8,7 +9,7 @@ class Solution {
         for(int i=0; i<n; i++){
             if(!visited[i]){
                 answer++;
-                dfs(i, computers);
+                bfs(i, computers);
             }
         }
         
@@ -20,6 +21,20 @@ class Solution {
         for(int i=0; i<computers.length; i++){
             if(!visited[i] && computers[start][start] == computers[start][i])
                 dfs(i,computers);
+        }
+    }
+    
+    public void bfs(int start, int[][]computers){
+        Deque<Integer> q = new ArrayDeque<>();
+        q.offer(start);
+        while(!q.isEmpty()){
+            int top = q.poll();
+            visited[top] = true;
+            for(int i=0; i<computers.length; i++){
+                if(!visited[i] && computers[top][top] == computers[top][i]){
+                    q.offer(i);
+                }
+            }
         }
     }
 }
