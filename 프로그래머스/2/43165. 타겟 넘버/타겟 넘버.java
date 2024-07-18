@@ -8,22 +8,36 @@ class Solution {
         //순열 + dfs?
         //가능한 조합의 배치 ( 최대 2의 50제곱 = 1024*1024 = 시간복잡도 널널)
         
-        List<List<Boolean>> isPlus = new ArrayList<>();
-        makeList(0, numbers.length, new boolean[numbers.length], isPlus);
+//         List<List<Boolean>> isPlus = new ArrayList<>();
+//         makeList(0, numbers.length, new boolean[numbers.length], isPlus);
 
-        for(List<Boolean> plus : isPlus){
-            int sum = 0;
-            for(int i=0; i<plus.size(); i++){
-                if(plus.get(i)) sum += numbers[i];
-                else sum -= numbers[i];
-            }
-            if(sum == target){
-                answer++;
-            }
+//         for(List<Boolean> plus : isPlus){
+//             int sum = 0;
+//             for(int i=0; i<plus.size(); i++){
+//                 if(plus.get(i)) sum += numbers[i];
+//                 else sum -= numbers[i];
+//             }
+//             if(sum == target){
+//                 answer++;
+//             }
+//         }
+        
+        int[] ans = {0};
+        dfs(numbers, target, ans, 0, 0);
+        
+        return ans[0];
+    }
+    
+    public void dfs(int[] numbers, int target, int[] ans, int idx, int sum){
+        if(idx == numbers.length){
+            if(sum == target) ans[0]++;
+            return;
         }
         
-        return answer;
+        dfs(numbers, target, ans, idx+1, sum + numbers[idx]);
+        dfs(numbers, target, ans, idx+1, sum - numbers[idx]);
     }
+    
     
     public void makeList(int start, int N, boolean[] visited, List<List<Boolean>> list) {
         if (start == N) {
