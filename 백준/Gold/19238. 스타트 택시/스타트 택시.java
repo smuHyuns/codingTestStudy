@@ -63,8 +63,6 @@ public class Main {
 
         /*입력구간 종료*/
 
-        int count = 0; //태운 손님의 수
-
         // 택시가 손님을 태우는 과정
         for (int i = 0; i < M; i++) {
             boolean[][] visited = new boolean[N][N]; //갈수있는곳인지 없는지를 체크하기 위한 visited
@@ -82,7 +80,7 @@ public class Main {
             int distToPassengers = route[cur.y][cur.x];
 
             // 손님을 태우러 가는 연료 확인
-            if (fuel < distToPassengers || !visited[cur.y][cur.x]) {
+            if (fuel < distToPassengers) {
                 fuel = -1;
                 break;
             }
@@ -110,7 +108,6 @@ public class Main {
             taxi.x = destination.x;
             taxi.y = destination.y;
 
-            count++;
             takenPassengers[target] = true;
         }
 
