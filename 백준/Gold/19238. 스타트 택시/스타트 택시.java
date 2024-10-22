@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        //스타트택시 복습!!//
+        //스타트택시 복습!//
         /* 입력 구간 */
 
         // 맵의크기 N, 손님의 수 M, 연료의 양 fuel
