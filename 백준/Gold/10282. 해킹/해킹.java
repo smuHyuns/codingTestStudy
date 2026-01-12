@@ -81,7 +81,7 @@ public class Main {
             int nowTime = cur[1];
 
             // 이미 더 좋은(짧은) 시간이 dist[now]에 들어있으면 이 항목은 버림
-            if (nowTime != dist[now]) continue;
+            if (nowTime > dist[now]) continue;
 
             for (int[] edge : graph.get(now)) {
                 int next = edge[0];
