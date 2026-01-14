@@ -18,30 +18,32 @@ public class Main {
         Arrays.fill(times, Integer.MAX_VALUE);
         times[start] = 0;
 
-        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
-        pq.offer(new int[]{start, 0});
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{start, 0});
 
-        while (!pq.isEmpty()) {
-            int[] now = pq.poll();
+        while (!q.isEmpty()) {
+            int[] now = q.poll();
             int no = now[0];
             int time = now[1];
+
+            if (time > times[no]) continue;
 
             if (isValid(no * 2)) {
                 if (times[no * 2] > time) {
                     times[no * 2] = time;
-                    pq.offer(new int[]{no * 2, time});
+                    q.offer(new int[]{no * 2, time});
                 }
             }
             if (isValid(no + 1)) {
                 if (times[no + 1] > time + 1) {
                     times[no + 1] = time + 1;
-                    pq.offer(new int[]{no + 1, time + 1});
+                    q.offer(new int[]{no + 1, time + 1});
                 }
             }
             if (isValid(no - 1)) {
                 if (times[no - 1] > time + 1) {
                     times[no - 1] = time + 1;
-                    pq.offer(new int[]{no - 1, time + 1});
+                    q.offer(new int[]{no - 1, time + 1});
                 }
             }
         }
