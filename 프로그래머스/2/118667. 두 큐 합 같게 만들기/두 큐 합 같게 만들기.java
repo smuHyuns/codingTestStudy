@@ -2,50 +2,48 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] queue1, int[] queue2) {
-        int count = 0;
-        long frontSum = 0 , backSum = 0, maxEl = 0;
-        Queue<Integer> frontQ = new LinkedList<>();
-        Queue<Integer> backQ = new LinkedList<>();
-        for(int i=0; i<queue1.length; i++){
-            frontSum += queue1[i];
-            backSum += queue2[i];
-            frontQ.offer(queue1[i]);
-             backQ.offer(queue2[i]);
-            if(maxEl < queue1[i]) maxEl = queue1[i];
-            if(maxEl <  queue2[i]) maxEl =  queue2[i];
+        Queue<Integer> q1 = getQueue(queue1);
+        Queue<Integer> q2 = getQueue(queue2);
+        
+        int maxTry = Math.max(q1.size(), q2.size()) * 3;
+        
+        long sum1 = getSum(queue1);
+        long sum2 = getSum(queue2);
+        
+        for(int count = 0; count <maxTry; count++){
+            if(sum1 == sum2) return count;
+            else if(sum1 < sum2) {
+                int poll = q2.poll();
+                sum1 += poll;
+                sum2 -= poll;
+                q1.add(poll);
+            }
+            else if(sum1 > sum2) {
+                int poll = q1.poll();
+                sum1 -= poll;
+                sum2 += poll;
+                q2.add(poll);
+            }
         }
         
-        if(maxEl > (frontSum+backSum)/2) return -1;
-        while(true){
-            if(count > (queue1.length*3)){
-                count = -1;
-                break;
-            }
-            if(backSum == frontSum){
-                break;
-            } else if(backSum < frontSum){
-                if(frontQ.peek() != null){
-                    int temp = frontQ.poll();
-                    backQ.offer(temp);
-                    backSum += temp;
-                    frontSum -= temp;
-                }
-            } else {
-                if(frontQ.peek() != null){
-                    int temp = backQ.poll();
-                    frontQ.offer(temp);
-                    backSum -= temp;
-                    frontSum += temp;
-                }     
-            }
-            count++;
+        return -1;
+    }
+    
+    public Queue<Integer> getQueue(int[] array) {
+        Queue<Integer> q = new LinkedList<>();
+        
+        for(int num : array) {
+            q.add(num);
         }
         
-        
-        
-        System.out.println(frontSum);
-        System.out.println(backSum);
-        
-        return count;
+        return q;
+    }
+    
+    public long getSum(int[] array) {
+        long sum = 0;
+        for(int num : array) {
+            sum += num;
+        }
+        return sum;
     }
 }
