@@ -2,23 +2,28 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] prices) {
-        int[] answer = new int[prices.length];
-        Stack<Integer> stack = new Stack<>();
-
-        for (int i = 0; i < prices.length; i++) {
-            while (!stack.isEmpty()
-                   && prices[stack.peek()] > prices[i]) {
-                int j = stack.pop();
-                answer[j] = i - j;
+        Stack<int[]> stack = new Stack<>();
+        
+        int len = prices.length;
+        int[] times = new int[len];
+        
+        for(int i=0; i<len; i++) {
+            // 비어있지 않은 경우 - 가격이떨어진 경우 체크
+            while(!stack.isEmpty() && stack.peek()[0] > prices[i]) {
+                int[] info = stack.pop();
+                int index = info[1];
+                times[index] = i - index;
             }
-            stack.push(i);
+            
+            stack.push(new int[] {prices[i], i});
+        }
+        
+        while(!stack.isEmpty()) {
+            int[] info = stack.pop();
+            int index = info[1];
+            times[index] = len - 1 - index;
         }
 
-        while (!stack.isEmpty()) {
-            int j = stack.pop();
-            answer[j] = prices.length - 1 - j;
-        }
-
-        return answer;
+        return times;
     }
 }
