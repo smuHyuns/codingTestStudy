@@ -1,52 +1,39 @@
 import java.util.*;
 
 class Solution {
-
-/*
- 뒤에 있는 기능이 먼저 개발될 수 있지만, 앞에있는 기능이 배포될 때 함께 배포된다.
- progresses - 작업 진도
- speeds - 개발 속도
- 작업의 개수는 100개 이하이다.
-*/
-
     public int[] solution(int[] progresses, int[] speeds) {
-        List<Integer> answerList = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
         
-        Queue<Integer> workQ = new LinkedList<>();
-        Queue<Integer> speedQ = new LinkedList<>();
+        int len = progresses.length;
+        int[] times = new int[len];
         
-        for(int idx=0; idx<progresses.length; idx++){
-            int restWork = 100 - progresses[idx];
-            workQ.add(restWork);
+        for(int i=0; i<len; i++) {
+            int progress = progresses[i];
+            int speed = speeds[i];
+            int spendTimes = (100 - progress) / speed;
+            spendTimes += (100-progress) % speed == 0 ? 0 : 1;
+            times[i] = spendTimes;
         }
         
-        for(int idx=0; idx<speeds.length; idx++){
-            speedQ.add(speeds[idx]);
-        }
-        
-        int time = 0;
-        while(!workQ.isEmpty()) {
-            time++;
-            int count = 0;
-            
-            while(
-                !workQ.isEmpty()
-                  && (workQ.peek() <= speedQ.peek() * time)
-            ) {
-                workQ.poll();
-                speedQ.poll();
-                count++;
+        int count = 0;
+        int top = times[0];
+        for(int i=0; i<len; i++) {
+            if(top >= times[i]) {
+                count ++;
             }
-            
-            if(count > 0) {
-                answerList.add(count);
+            else if(top < times[i]) {
+                list.add(count);
+                
+                top = times[i];
+                count = 1;
             }
         }
+        list.add(count);
         
-        int answerLen = answerList.size();
-        int[] answer = new int[answerLen];
-        for(int idx=0; idx<answerLen; idx++) {
-            answer[idx] = answerList.get(idx);
+        
+        int[] answer = new int[list.size()];
+        for(int i=0; i<list.size(); i++){
+            answer[i] = list.get(i);
         }
         
         return answer;
