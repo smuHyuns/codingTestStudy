@@ -1,10 +1,10 @@
 # [level 2] 괄호 회전하기 - 76502 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/76502) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/76502?gad_source=1&gad_campaignid=23037984604&gbraid=0AAAAAC_c4nCYw8zcO3CIYB-TWraKeVdCW&gclid=CjwKCAiAwNDMBhBfEiwAd7ti1H6gxWg9ERKDJKiTEQU9HqR8wLD7PILejkCI4GoSos7ShzHJjgt3NxoCGSQQAvD_BwE) 
 
 ### 성능 요약
 
-메모리: 86.1 MB, 시간: 12.45 ms
+메모리: 87.6 MB, 시간: 36.97 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 07월 01일 11:59:39
+2026년 02월 18일 16:09:39
 
 ### 문제 설명
 
